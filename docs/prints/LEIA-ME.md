@@ -1,9 +1,6 @@
-# Lista de prints a incluir nesta pasta
+# Lista de prints 
 
-Salve as capturas de tela com exatamente estes nomes. O README.md já aponta para eles.
-
-| Arquivo | O que capturar | Onde |
-|---|---|---|
+1.fluxo-completo
 | `<img width="1075" height="551" alt="01-fluxo-completo png" src="https://github.com/user-attachments/assets/34c32427-85f2-428d-a85f-9c7f304980f9" /> |
 
 | `02-execucao-sucesso.png` | Execução concluída com os nodes em verde, ou a aba Executions com *Success* | n8n |
@@ -19,7 +16,8 @@ Salve as capturas de tela com exatamente estes nomes. O README.md já aponta par
 | `12-saida-http-request.png` | Aba Output do HTTP Request (JSON da IA) | n8n |
 | `13-saida-switch.png` | Aba Output do Switch (ramificação usada) | n8n |
 | `14-saida-set.png` | Aba Output do node Set usado | n8n |
-| `15-resposta-final.png` | 
+ 
+15- resposta-final
 <img width="1303" height="78" alt="15-resposta-final png" src="https://github.com/user-attachments/assets/d1e89c28-80e4-48ca-9111-9ec12900eb89" />
 
 
