@@ -21,7 +21,14 @@
 <img width="1303" height="78" alt="15-resposta-final png" src="https://github.com/user-attachments/assets/d1e89c28-80e4-48ca-9111-9ec12900eb89" />
 
 
-| `16-interface-web.png` | Página inicial com um resultado | `/` da API |
-| `17-swagger.png` | Documentação interativa | `/docs` da API |
+ 16-interface-web.png
+
+ <img width="1600" height="834" alt="16-interface-web png" src="https://github.com/user-attachments/assets/7533a2d2-b239-4776-91c9-3dad60e72f4b" />
+
+
+ 17-swagger
+ 
+ <img width="1600" height="756" alt="17-swagger png" src="https://github.com/user-attachments/assets/b8978fa3-d79c-46b1-88a9-5ff5dafcd986" />
+
 
 
