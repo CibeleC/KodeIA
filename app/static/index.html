@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Classificador de Mensagens</title>
+  <style>
+    :root {
+      --bg: #fff0f5; --card: #fff; --texto: #4a2c3a; --suave: #8a6b7a; --borda: #f9d5e3;
+      --primaria: #f4a6c3; --primaria-escura: #e58aad; --texto-primaria: #4a1d33; --realce: #fde4ee;
+      --duvida: #2563eb; --reclamacao: #dc2626; --solicitacao: #d97706; --elogio: #16a34a; --outro: #6b7280;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, "Segoe UI", sans-serif; background: var(--bg); color: var(--texto); }
+    header { background: linear-gradient(135deg, #fbc8dc, #f4a6c3); color: var(--texto-primaria); padding: 24px 16px; text-align: center; }
+    header h1 { margin: 0 0 4px; font-size: 1.5rem; }
+    header p { margin: 0; opacity: .8; }
+    main { max-width: 860px; margin: 24px auto; padding: 0 16px; display: grid; gap: 20px; }
+    .card { background: var(--card); border: 1px solid var(--borda); border-radius: 12px; padding: 20px; }
+    label { display: block; font-weight: 600; margin-bottom: 6px; }
+    input, textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--borda); border-radius: 8px; font: inherit; }
+    input:focus, textarea:focus { outline: 2px solid var(--primaria); border-color: transparent; }
+    textarea { min-height: 110px; resize: vertical; }
+    .campo { margin-bottom: 14px; }
+    .exemplos { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; font-size: .9rem; color: var(--suave); }
+    .exemplos button { background: var(--realce); color: var(--texto-primaria); border: 1px solid var(--borda); padding: 6px 10px; border-radius: 999px; cursor: pointer; font: inherit; font-size: .85rem; }
+    .exemplos button:hover { background: #fbc8dc; }
+    .acoes { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .contador { color: var(--suave); font-size: .85rem; }
+    .botao { background: var(--primaria); color: var(--texto-primaria); border: 0; padding: 10px 22px; border-radius: 8px; font: inherit; font-weight: 700; cursor: pointer; }
+    .botao:hover:not(:disabled) { background: var(--primaria-escura); }
+    .botao:disabled { opacity: .6; cursor: wait; }
+    .erro { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; padding: 12px; border-radius: 8px; margin-top: 14px; }
+    .oculto { display: none; }
+    .topo-resultado { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
+    .selo { color: #fff; padding: 4px 12px; border-radius: 999px; font-weight: 700; font-size: .85rem; text-transform: uppercase; }
+    .prio { padding: 4px 12px; border-radius: 999px; font-weight: 600; font-size: .85rem; border: 1px solid var(--borda); }
+    .prio.alta { background: #fee2e2; color: #991b1b; }
+    .prio.media { background: #fef3c7; color: #92400e; }
+    .prio.baixa { background: #dcfce7; color: #166534; }
+    .barra { height: 8px; background: var(--borda); border-radius: 999px; overflow: hidden; margin: 4px 0 14px; }
+    .barra > div { height: 100%; background: var(--primaria-escura); }
+    dl { margin: 0; }
+    dt { font-weight: 600; font-size: .85rem; color: var(--suave); text-transform: uppercase; margin-top: 12px; }
+    dd { margin: 2px 0 0; }
+    h2 { margin: 0 0 12px; font-size: 1.1rem; }
+    table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+    th, td { text-align: left; padding: 8px; border-bottom: 1px solid var(--borda); vertical-align: top; }
+    tbody tr:nth-child(even) { background: #fff8fb; }
+    th { color: var(--suave); font-size: .8rem; text-transform: uppercase; }
+    .vazio { color: var(--suave); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Classificador de Mensagens de Clientes</h1>
+    <p>Cole uma mensagem e a IA identifica o assunto e a prioridade.</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <form id="formulario">
+        <div class="campo">
+          <label for="cliente">Cliente (opcional)</label>
+          <input id="cliente" maxlength="100" placeholder="Ex.: Maria Silva" />
+        </div>
+        <div class="campo">
+          <label for="mensagem">Mensagem</label>
+          <textarea id="mensagem" maxlength="4000" required placeholder="Digite a mensagem do cliente..."></textarea>
+        </div>
+        <div class="exemplos">
+          <span>Exemplos:</span>
+          <button type="button" data-ex="Meu pedido atrasou 10 dias e ninguém responde! Vou procurar o Procon.">Reclamação</button>
+          <button type="button" data-ex="Quero cancelar meu plano e receber o reembolso.">Solicitação</button>
+          <button type="button" data-ex="Como funciona o prazo de entrega para o Nordeste?">Dúvida</button>
+          <button type="button" data-ex="Atendimento excelente, muito obrigado pela ajuda!">Elogio</button>
+        </div>
+        <div class="acoes">
+          <span class="contador"><span id="contador">0</span>/4000</span>
+          <button class="botao" id="enviar" type="submit">Classificar</button>
+        </div>
+        <div id="erro" class="erro oculto" role="alert"></div>
+      </form>
+    </section>
+
+    <section class="card oculto" id="resultado">
+      <h2>Resultado</h2>
+      <div class="topo-resultado">
+        <span class="selo" id="r-categoria"></span>
+        <span class="prio" id="r-prioridade"></span>
+      </div>
+      <dl>
+        <dt>Confiança: <span id="r-confianca-txt"></span></dt>
+        <dd><div class="barra"><div id="r-confianca"></div></div></dd>
+        <dt>Resumo</dt><dd id="r-resumo"></dd>
+        <dt>Justificativa</dt><dd id="r-justificativa"></dd>
+      </dl>
+    </section>
+
+    <section class="card">
+      <h2>Histórico desta sessão</h2>
+      <p class="vazio" id="vazio">Nenhuma mensagem classificada ainda.</p>
+      <table class="oculto" id="tabela">
+        <thead><tr><th>Cliente</th><th>Mensagem</th><th>Categoria</th><th>Prioridade</th></tr></thead>
+        <tbody id="historico"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    const CORES = {
+      duvida: "var(--duvida)", reclamacao: "var(--reclamacao)", solicitacao: "var(--solicitacao)",
+      elogio: "var(--elogio)", outro: "var(--outro)",
+    };
+    const ROTULOS = { duvida: "Dúvida", reclamacao: "Reclamação", solicitacao: "Solicitação", elogio: "Elogio", outro: "Outro" };
+
+    const $ = (id) => document.getElementById(id);
+    const mensagem = $("mensagem");
+
+    mensagem.addEventListener("input", () => ($("contador").textContent = mensagem.value.length));
+
+    document.querySelectorAll("[data-ex]").forEach((b) =>
+      b.addEventListener("click", () => {
+        mensagem.value = b.dataset.ex;
+        mensagem.dispatchEvent(new Event("input"));
+        mensagem.focus();
+      })
+    );
+
+    function mostrarErro(texto) {
+      $("erro").textContent = texto;
+      $("erro").classList.remove("oculto");
+    }
+
+    function mostrarResultado(r) {
+      const selo = $("r-categoria");
+      selo.textContent = ROTULOS[r.categoria] || r.categoria;
+      selo.style.background = CORES[r.categoria] || CORES.outro;
+      const prio = $("r-prioridade");
+      prio.textContent = "Prioridade " + r.prioridade;
+      prio.className = "prio " + r.prioridade;
+      const pct = Math.round(r.confianca * 100);
+      $("r-confianca-txt").textContent = pct + "%";
+      $("r-confianca").style.width = pct + "%";
+      $("r-resumo").textContent = r.resumo;
+      $("r-justificativa").textContent = r.justificativa;
+      $("resultado").classList.remove("oculto");
+    }
+
+    function adicionarHistorico(r) {
+      const linha = document.createElement("tr");
+      const dados = [r.cliente || "-", r.mensagem, ROTULOS[r.categoria] || r.categoria, r.prioridade];
+      dados.forEach((t) => {
+        const td = document.createElement("td");
+        td.textContent = t;
+        linha.appendChild(td);
+      });
+      $("historico").prepend(linha);
+      $("tabela").classList.remove("oculto");
+      $("vazio").classList.add("oculto");
+    }
+
+    $("formulario").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      $("erro").classList.add("oculto");
+      const botao = $("enviar");
+      botao.disabled = true;
+      botao.textContent = "Classificando...";
+      try {
+        const resp = await fetch("/classificar-web", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            mensagem: mensagem.value.trim(),
+            cliente: $("cliente").value.trim() || null,
+          }),
+        });
+        const corpo = await resp.json().catch(() => ({}));
+        if (!resp.ok) {
+          const detalhe = Array.isArray(corpo.detail) ? "Mensagem inválida (mínimo 3 caracteres)." : corpo.detail;
+          throw new Error(detalhe || "Erro " + resp.status);
+        }
+        mostrarResultado(corpo);
+        adicionarHistorico(corpo);
+      } catch (erro) {
+        mostrarErro(erro.message || "Não foi possível conectar à API.");
+      } finally {
+        botao.disabled = false;
+        botao.textContent = "Classificar";
+      }
+    });
+  </script>
+</body>
+</html>
