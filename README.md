@@ -409,5 +409,7 @@ Exemplo com a mensagem `{"mensagem": "Quero cancelar meu plano", "cliente": "Joa
 
 ### 7.5 Outras evidências
 
+Página da Web de visualização e testes : https://classificador-mensagens.onrender.com/
+
 ![Interface web](docs/prints/16-interface-web.png)
 ![Documentação interativa (Swagger)](docs/prints/17-swagger.png)
