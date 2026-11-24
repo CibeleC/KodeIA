@@ -4,7 +4,8 @@ Salve as capturas de tela com exatamente estes nomes. O README.md já aponta par
 
 | Arquivo | O que capturar | Onde |
 |---|---|---|
-| `01-fluxo-completo.png` | Os 8 nodes conectados, com o zoom ajustado (tecla `1`) | Editor do n8n |
+| `<img width="1075" height="551" alt="01-fluxo-completo png" src="https://github.com/user-attachments/assets/34c32427-85f2-428d-a85f-9c7f304980f9" /> |
+
 | `02-execucao-sucesso.png` | Execução concluída com os nodes em verde, ou a aba Executions com *Success* | n8n |
 | `03-node-webhook.png` | Node Webhook aberto (duplo clique) mostrando método e path | n8n |
 | `04-node-http-request.png` | Node HTTP Request aberto. **Esconda o valor do token** | n8n |
@@ -18,10 +19,11 @@ Salve as capturas de tela com exatamente estes nomes. O README.md já aponta par
 | `12-saida-http-request.png` | Aba Output do HTTP Request (JSON da IA) | n8n |
 | `13-saida-switch.png` | Aba Output do Switch (ramificação usada) | n8n |
 | `14-saida-set.png` | Aba Output do node Set usado | n8n |
-| `15-resposta-final.png` | Resposta final recebida no curl/Postman | Terminal ou Postman |
+| `15-resposta-final.png` | 
+<img width="1303" height="78" alt="15-resposta-final png" src="https://github.com/user-attachments/assets/d1e89c28-80e4-48ca-9111-9ec12900eb89" />
+
+
 | `16-interface-web.png` | Página inicial com um resultado | `/` da API |
 | `17-swagger.png` | Documentação interativa | `/docs` da API |
 
-## Cuidados
-- Não deixe aparecer o `API_TOKEN`, a `LLM_API_KEY` nem a URL do webhook de produção com credenciais.
-- Para ver a saída de cada node, execute o fluxo e dê duplo clique no node, na aba **Output**.
+
