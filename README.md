@@ -148,8 +148,6 @@ Resposta final do fluxo:
 }
 ```
 
-O detalhe de cada node e os prints estão na seção [7](#7-documentação-do-fluxo-de-automação-n8n).
-
 ### 5.4 Tratamento de erros
 
 | Código | Causa |
@@ -334,11 +332,6 @@ Quatro nodes, um por saída do Switch. Cada um acrescenta `setor_destino` e `aca
 | Solicitacao - Operacoes | `operacoes` | Criar chamado de solicitacao e confirmar recebimento ao cliente |
 | Duvida - Atendimento | `atendimento_geral` | Enviar resposta da base de conhecimento |
 | Outro - Triagem Manual | `triagem_manual` | Encaminhar para analise humana |
-
-![Set - Reclamação](docs/prints/06-node-set-reclamacao.png)
-![Set - Solicitação](docs/prints/07-node-set-solicitacao.png)
-![Set - Dúvida](docs/prints/08-node-set-duvida.png)
-![Set - Outro](docs/prints/09-node-set-outro.png)
 
 #### 7.3.5 Responder Webhook (`Respond to Webhook`)
 
