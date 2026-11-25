@@ -268,7 +268,6 @@ Os prints ficam em `docs/prints/`. Cada item abaixo indica o nome do arquivo esp
 
 Visão geral dos 8 nodes conectados. A mensagem entra pelo Webhook, é classificada pela API com IA, roteada por categoria, enriquecida com setor e ação, e devolvida como resposta.
 
-![Fluxo completo](docs/prints/01-fluxo-completo.png)
 
 ```
 Webhook Mensagem -> Classificar na API (IA) -> Roteamento por Categoria
@@ -284,7 +283,6 @@ O arquivo `n8n/workflow.json` contém o fluxo exportado e pode ser importado em 
 
 Execução concluída, com todos os nodes do caminho percorrido em verde. A aba **Executions** do n8n lista a execução com o status *Success*.
 
-![Execução bem-sucedida](docs/prints/02-execucao-sucesso.png)
 
 ### 7.3 Configuração dos nodes
 
@@ -300,7 +298,6 @@ Recebe a mensagem do cliente. É o ponto de entrada da automação.
 
 Corpo esperado: `{"mensagem": "texto do cliente", "cliente": "Nome"}`.
 
-![Node Webhook](docs/prints/03-node-webhook.png)
 
 #### 7.3.2 Classificar na API (IA) (`HTTP Request`)
 
@@ -314,7 +311,6 @@ Integração entre o n8n e a API FastAPI. Envia a mensagem para o endpoint `/cla
 | Send Body / Body Content Type | ligado, `JSON` |
 | JSON Body | `{{ JSON.stringify({ mensagem: $json.body.mensagem, cliente: $json.body.cliente }) }}` |
 
-![Node HTTP Request](docs/prints/04-node-http-request.png)
 
 #### 7.3.3 Roteamento por Categoria (`Switch`)
 
@@ -327,7 +323,6 @@ Direciona a mensagem conforme o campo `categoria` retornado pela IA.
 | `duvida` | `duvida` |
 | `outro` (fallback) | qualquer outro valor, inclusive `elogio` |
 
-![Node Switch](docs/prints/05-node-switch.png)
 
 #### 7.3.4 Nodes de destino (`Edit Fields / Set`)
 
@@ -354,7 +349,6 @@ Devolve ao chamador o JSON final.
 | Respond With | `JSON` |
 | Response Body | `{{ $json }}` |
 
-![Node Respond to Webhook](docs/prints/10-node-responder-webhook.png)
 
 ### 7.4 Resultados: dados em cada etapa
 
@@ -365,7 +359,6 @@ Exemplo com a mensagem `{"mensagem": "Quero cancelar meu plano", "cliente": "Joa
 ```json
 { "body": { "mensagem": "Quero cancelar meu plano", "cliente": "Joao" } }
 ```
-![Saída do Webhook](docs/prints/11-saida-webhook.png)
 
 **Saída do HTTP Request.** Resposta da API com a classificação feita pela IA.
 
@@ -380,11 +373,8 @@ Exemplo com a mensagem `{"mensagem": "Quero cancelar meu plano", "cliente": "Joa
   "mensagem": "Quero cancelar meu plano"
 }
 ```
-![Saída do HTTP Request](docs/prints/12-saida-http-request.png)
 
 **Saída do Switch.** A mensagem sai pela ramificação `solicitacao`.
-
-![Saída do Switch](docs/prints/13-saida-switch.png)
 
 **Saída do node Set.** Os campos de destino foram acrescentados.
 
@@ -401,15 +391,12 @@ Exemplo com a mensagem `{"mensagem": "Quero cancelar meu plano", "cliente": "Joa
   "acao": "Criar chamado de solicitacao e confirmar recebimento ao cliente"
 }
 ```
-![Saída do Set](docs/prints/14-saida-set.png)
 
 **Resposta final ao chamador** (curl, Postman ou outro sistema):
 
-![Resposta final](docs/prints/15-resposta-final.png)
 
 ### 7.5 Outras evidências
 
 Página da Web de visualização e testes : https://classificador-mensagens.onrender.com/
 
-![Interface web](docs/prints/16-interface-web.png)
-![Documentação interativa (Swagger)](docs/prints/17-swagger.png)
+Prints relacionados estão na aba LEIA-ME
