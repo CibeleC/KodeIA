@@ -386,7 +386,7 @@ Exemplo com a mensagem `{"mensagem": "Quero cancelar meu plano", "cliente": "Joa
 
 ### 7.5 Outras evidências
 
-URL Oficial Publicada : classificador-mensagens.orender.com
+URL Oficial Publicada : https://classificador-mensagens.onrender.com/
 
 Prints e imagens estão na pasta :  `docs/prints/LEIA-ME`
 
